@@ -8,5 +8,9 @@
     "createdAt": "2023-06-20T14:05:58.211Z",
     "version": "6.3.0",
     "commit": "e129ade681adff8cbb19f82e63f688fef2f08f32"
+  },
+  "dependencies": {
+    "fs.promises": "^0.1.2",
+    "marked": "^7.0.2"
   }
 }
