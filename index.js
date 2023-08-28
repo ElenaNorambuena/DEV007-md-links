@@ -1,6 +1,8 @@
 const fs = require('fs');// módulo filesystem
 const path = require('path'); // módulo path para trabajar rutas y directorios
 const marked = require('marked'); // paquete marked para convertir de markdown a html
+const cheerio = require('cheerio'); // importando cheerio
+const url = require('url'); // módulo url para resolver rutas
 
 const mdLinks = (filePath) => {// exporta una función anónima como el valor de 'module.exports'para que otros archivos lo importen.
 
@@ -16,25 +18,40 @@ const mdLinks = (filePath) => {// exporta una función anónima como el valor de
     try {
       const result = fs.readFileSync(absolutePath, 'utf8');// leyendo contenido UTF-8 usando promesas de módulo 'fs'
       console.log(result);
-      const links = [];// array vacío para links encontrados
+      // Convertir el contenido markdown a html y guardarlo en una variable
+      const html = marked.parse(result);
+      console.log(html);
 
-      const renderer = new marked.Renderer();// instancia del renderizador personalizado proporcionado por el paquete 'marked'
+// Carga el contenido HTML en Cheerio
+const $ = cheerio.load(html);
+// Selecciona todos los elementos 'a' que tienen el atributo 'href' y extrae sus valores
+const links = [];
+$('a[href]').each((index, element) => {
+    // Resolver la ruta relativa con respecto a la ruta base del archivo
+    const href = url.resolve(absolutePath, $(element).attr('href'));
+    // Obtener el texto del elemento
+    const text = $(element).text();
+    // Crear un objeto con las propiedades url y text
+    const link = {url: href, text: text};
+    // Añadir el objeto al array de links
+    links.push(link);
+});
+console.log(links);
 
-      renderer+9.link = (href, title, text) => {
-        links.push({ href, text, file: absolutePath });
-      };
+// Usar el método map para transformar el array de links en un array de objetos
+const objects = links.map(link => {
+    // Devolver un nuevo objeto con las propiedades url y text
+    return {url: link.url, text: link.text};
+});
+console.log(objects);
 
-      marked(result, { renderer });
 
-      if (links.length === 0) {
-        reject(new Error('No se encontraron enlaces en el archivo.'));
-      } else {
-        resolve(links);
-      }
+      // Resolver la promesa con el array de links
+      resolve(links);
     } catch (error) {
       reject(error); // Manejar errores al leer el archivo
     }
   });
-};
+}; 
 
 mdLinks('./README.md')

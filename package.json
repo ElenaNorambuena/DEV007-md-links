@@ -10,7 +10,8 @@
     "commit": "e129ade681adff8cbb19f82e63f688fef2f08f32"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
     "fs.promises": "^0.1.2",
-    "marked": "^7.0.2"
+    "marked": "^7.0.4"
   }
 }
