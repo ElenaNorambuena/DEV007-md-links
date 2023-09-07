@@ -5,16 +5,43 @@ const cheerio = require('cheerio'); // importando cheerio
 const url = require('url'); // módulo url para resolver rutas
 const axios = require('axios'); // importando axios
 
+const isMd = function (route){// función para testing
+      // Verificar si el archivo tiene extensión .md
+      if (path.extname(route) !== '.md') {
+        return false; // Salir de la función si no es un archivo .md
+      } return true;
+};
+
+const isAbsolute = function (filePath){// función para testing
+  // Verificar si la ruta es absoluta
+  if (path.isAbsolute(filePath)) {// 
+    return true; // 
+  } return false
+};
+
+const impDir = function(directory){
+  if (path.impDir(directory)){
+  return true;
+  } return false
+};
+
 // Definir la función mdLinks con un parámetro opcional validate
 const mdLinks = (filePath, validate = false) => {// exporta una función anónima como el valor de 'module.exports'para que otros archivos lo importen.
 
   return new Promise((resolve, reject) => {
-    const absolutePath = path.resolve(filePath);// de relativa a absoluta
-    const dirName = path.dirname(absolutePath); // Obtener el directorio del archivo
-    console.log(dirName); // Imprimir el directorio en la consola
+    let absolutePath = filePath
+    if (isAbsolute(filePath) === false){// si la ruta no es absoluta(osea es relativa)
+      absolutePath = path.resolve(filePath);// si la ruta es relativa se resuelve a absoluta
+    };
+    if (impDir(directory) === true){
+      let directory = absolutePath
+      const dirName = path.dirName(directory); // Obtener el directorio del archivo
+      console.log(dirName); // Imprimir el directorio en la consola
+    };
+    
 
     // Verificar si el archivo tiene extensión .md
-    if (path.extname(absolutePath) !== '.md') {
+    if (isMd(absolutePath) === false) {
       reject(new Error('El archivo debe ser de formato .md'));
       return; // Salir de la función si no es un archivo .md
     }
@@ -88,3 +115,4 @@ const mdLinks = (filePath, validate = false) => {// exporta una función anónim
   });
 };
 mdLinks('./README.md', true)
+module.exports = {isMd}

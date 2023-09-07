@@ -1,10 +1,14 @@
-const mdLinks = require('../');
+const myFunctions = require("./../index.js")
 
-
-describe('mdLinks', () => {
-
-  it('should...', () => {
-    console.log('FIX ME!');
-  });
-
+describe ("isMd", ()=>{
+it ('debería ser una función', ()=>{
+  expect (typeof myFunctions.isMd).toBe('function');
 });
+});
+
+describe ("isAbsolute", ()=>{
+  it ('debería ser una función', ()=>{
+    expect (typeof myFunctions.isAbsolute).toBe('function');
+  });
+});
+

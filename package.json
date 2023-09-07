@@ -4,6 +4,9 @@
   "engines": {
     "node": ">=16.x"
   },
+  "scripts": {
+    "test": "jest --coverage"
+  },
   "bootcamp": {
     "createdAt": "2023-06-20T14:05:58.211Z",
     "version": "6.3.0",
