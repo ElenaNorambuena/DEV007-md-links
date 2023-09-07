@@ -19,8 +19,8 @@ const isAbsolute = function (filePath){// función para testing
   } return false
 };
 
-const impDir = function(directory){
-  if (path.impDir(directory)){
+const impDir = function(absolutePath){
+  if (path.impDir(absolutePath)){
   return true;
   } return false
 };
@@ -33,9 +33,8 @@ const mdLinks = (filePath, validate = false) => {// exporta una función anónim
     if (isAbsolute(filePath) === false){// si la ruta no es absoluta(osea es relativa)
       absolutePath = path.resolve(filePath);// si la ruta es relativa se resuelve a absoluta
     };
-    if (impDir(directory) === true){
-      let directory = absolutePath
-      const dirName = path.dirName(directory); // Obtener el directorio del archivo
+    if (impDir(absolutePath) === true){
+      const dirName = path.dirName(absolutePath); // Obtener el directorio del archivo
       console.log(dirName); // Imprimir el directorio en la consola
     };
     
